@@ -1,0 +1,46 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+  {% for post in posts %}
+<div class="post">
+
+    <div class="date">
+        <p>
+            {% if post.is_pinned %}
+            <span style="color:red; font-weight:bold;">[TOP]</span>
+            {% endif %}
+            published: {{ post.published_date }}
+        </p>
+    </div>
+
+    <h1>
+        <a href="{% url 'post_detail' pk=post.pk %}">
+            {{ post.title }}
+        </a>
+    </h1>
+
+    <p>{{ post.text|linebreaksbr }}</p>
+
+    {% if post.image %}
+    <img src="{{ post.image.url }}"
+         alt="{{ post.title }}"
+         class="rounded intruder-image-list"
+         style="max-width: 100%; margin-top: 10px;">
+    {% endif %}
+
+    <hr>
+</div>
+  {% empty %}
+<p>No posts have been published yet.</p>
+  {% endfor %}
+
+<div style="text-align:center; margin: 40px 0;">
+    <a href="{% url 'situp_stats' %}"
+       class="btn btn-primary"
+       style="padding: 12px 30px; font-size: 16px;">
+        Visualized statistical graph
+    </a>
+</div>
+
+{% endblock %}
